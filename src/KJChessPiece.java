@@ -7,7 +7,7 @@
  *
  */
 public class KJChessPiece {
-	String text = "P";
+	char text = 'P';
 	String color = "white";
 	
     int position = 1;
@@ -37,7 +37,7 @@ public class KJChessPiece {
 		return this.position;
 	}
 
-	public String getText() {
+	public char getText() {
 		return this.text;
 	}
 	

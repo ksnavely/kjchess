@@ -22,6 +22,8 @@ public class KJChess {
 		System.out.print( chessBoardView( pawn ) );
 		
 		pawn.move();
+		pawn.move();
+
 
 		System.out.print( pawn.getPosition() + "\n");
 		System.out.print( chessBoardView( pawn ) );
@@ -30,21 +32,31 @@ public class KJChess {
 	
 	public static String chessBoardView( KJChessPiece piece ) {
 		// Returns chess board view of a piece
-		String[] characters = { "#", piece.getText(), "-" };
+		//String[] characters = { "#", piece.getText(), "-" };
+		char[] charArray = { '#', '-', '#', '-', '#', '-', '#', '-', 
+		                       '-', '#', '-', '#', '-', '#', '-', '#',
+		                       '#', '-', '#', '-', '#', '-', '#', '-',
+		                       '-', '#', '-', '#', '-', '#', '-', '#',
+		                       '#', '-', '#', '-', '#', '-', '#', '-', 
+		                       '-', '#', '-', '#', '-', '#', '-', '#',
+		                       '#', '-', '#', '-', '#', '-', '#', '-',
+		                       '-', '#', '-', '#', '-', '#', '-', '#' };
 		String boardString = "";
 		String boardRowString = "";
 		int bitrow, row, col, bit, c;
 
-		for (row = 1; row <= 8; row++) { 
-			bitrow = (int) (piece.getPosition() / Math.pow(2,  8*(row - 1)));
+		for (row = 0; row <= 7; row++) { 
+			bitrow = (int) (piece.getPosition() / Math.pow(2,  8*row));
 			boardRowString = "|";
-			for (col = 1; col <=8; col++) {
-				bit = (bitrow >> (col - 1)) & 1;
-				if (bit == 0 && col % 2 == row % 2)
-					c = 2;
-				else
-					c = bit;
-				boardRowString += characters[ c ] + "|";
+			for (col = 0; col <=7; col++) {
+				bit = (bitrow >> col) & 1;
+				c = row*8 + col;
+
+				if (bit == 1) {
+					charArray[c] = piece.getText();
+				}
+			    boardRowString += charArray[c] + "|";
+
 
 			}
 			boardRowString += "\n";
