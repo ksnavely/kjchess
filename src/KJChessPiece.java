@@ -7,10 +7,8 @@
  *
  */
 public class KJChessPiece {
-	char text = 'P';
-	String color = "white";
-	
-    int position = 1;
+    char text, color;
+    int position;
     int maxPosition = 2^64;
     int minPosition = 0;
     
@@ -21,7 +19,10 @@ public class KJChessPiece {
 	/**
 	 * @param args
 	 */
-	public KJChessPiece(String pieceType) {
+	public KJChessPiece(char pieceChar, char color, int position) {
+		this.text = pieceChar;
+		this.color = color;
+		this.position = position;
 		this.moves = new int[1];
 	    this.moves[0] = 8;
 		// Do nothing

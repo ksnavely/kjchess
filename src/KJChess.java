@@ -10,61 +10,67 @@
  * @author ksnavely
  *
  */
+import java.util.Scanner;
+
 public class KJChess {
-	public static KJChessPiece pawn = new KJChessPiece("pawn");
+	public static Scanner in = new Scanner(System.in);
+	public static KJChessPiece[] pieces = {
+		// White
+		// Back row
+		new KJChessPiece('R', 'W', (int) Math.pow(2,0)),
+		new KJChessPiece('B', 'W', (int) Math.pow(2,1)),
+		new KJChessPiece('N', 'W', (int) Math.pow(2,2)),
+		new KJChessPiece('Q', 'W', (int) Math.pow(2,3)),
+		new KJChessPiece('K', 'W', (int) Math.pow(2,4)),
+		new KJChessPiece('N', 'W', (int) Math.pow(2,5)),
+		new KJChessPiece('B', 'W', (int) Math.pow(2,6)),
+		new KJChessPiece('R', 'W', (int) Math.pow(2,7)),
+		// Pawns
+		new KJChessPiece('P', 'W', (int) Math.pow(2,8)),
+		new KJChessPiece('P', 'W', (int) Math.pow(2,9)),
+		new KJChessPiece('P', 'W', (int) Math.pow(2,10)),
+		new KJChessPiece('P', 'W', (int) Math.pow(2,11)),
+		new KJChessPiece('P', 'W', (int) Math.pow(2,12)),
+		new KJChessPiece('P', 'W', (int) Math.pow(2,13)),
+		new KJChessPiece('P', 'W', (int) Math.pow(2,14)),
+		new KJChessPiece('P', 'W', (int) Math.pow(2,15)),
+
+		// Black
+		// Back row
+		new KJChessPiece('R', 'B', (int) Math.pow(2,57)),
+		new KJChessPiece('B', 'B', (int) Math.pow(2,58)),
+		new KJChessPiece('N', 'B', (int) Math.pow(2,59)),
+		new KJChessPiece('Q', 'B', (int) Math.pow(2,60)),
+		new KJChessPiece('K', 'B', (int) Math.pow(2,61)),
+		new KJChessPiece('N', 'B', (int) Math.pow(2,62)),
+		new KJChessPiece('B', 'B', (int) Math.pow(2,63)),
+		new KJChessPiece('R', 'B', (int) Math.pow(2,64)),
+		// Pawns
+		new KJChessPiece('P', 'B', (int) Math.pow(2,49)),
+		new KJChessPiece('P', 'B', (int) Math.pow(2,50)),
+		new KJChessPiece('P', 'B', (int) Math.pow(2,51)),
+		new KJChessPiece('P', 'B', (int) Math.pow(2,52)),
+		new KJChessPiece('P', 'B', (int) Math.pow(2,53)),
+		new KJChessPiece('P', 'B', (int) Math.pow(2,54)),
+		new KJChessPiece('P', 'B', (int) Math.pow(2,55)),
+		new KJChessPiece('P', 'B', (int) Math.pow(2,56))
+	};
+	public static KJChessBoard chessBoard = new KJChessBoard();
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		System.out.print("-- KJChess --\n");
-		
-		System.out.print( pawn.getPosition() + "\n");
-		System.out.print( chessBoardView( pawn ) );
-		
-		pawn.move();
-		pawn.move();
-
-
-		System.out.print( pawn.getPosition() + "\n");
-		System.out.print( chessBoardView( pawn ) );
+		System.out.print( chessBoard.makeBoardString(pieces) );
+		System.out.print( promptMove() + "\n");
 		
 	}
 	
-	public static String chessBoardView( KJChessPiece piece ) {
-		// Returns chess board view of a piece
-		//String[] characters = { "#", piece.getText(), "-" };
-		char[] charArray = { '#', '-', '#', '-', '#', '-', '#', '-', 
-		                       '-', '#', '-', '#', '-', '#', '-', '#',
-		                       '#', '-', '#', '-', '#', '-', '#', '-',
-		                       '-', '#', '-', '#', '-', '#', '-', '#',
-		                       '#', '-', '#', '-', '#', '-', '#', '-', 
-		                       '-', '#', '-', '#', '-', '#', '-', '#',
-		                       '#', '-', '#', '-', '#', '-', '#', '-',
-		                       '-', '#', '-', '#', '-', '#', '-', '#' };
-		String boardString = "";
-		String boardRowString = "";
-		int bitrow, row, col, bit, c;
-
-		for (row = 0; row <= 7; row++) { 
-			bitrow = (int) (piece.getPosition() / Math.pow(2,  8*row));
-			boardRowString = "|";
-			for (col = 0; col <=7; col++) {
-				bit = (bitrow >> col) & 1;
-				c = row*8 + col;
-
-				if (bit == 1) {
-					charArray[c] = piece.getText();
-				}
-			    boardRowString += charArray[c] + "|";
-
-
-			}
-			boardRowString += "\n";
-			boardString = boardRowString + boardString;
-		}
-		
-		return boardString;
-		
+	public static String[] promptMove() {
+		System.out.print("Enter Move: ");
+		String[] move = in.nextLine().trim().split(" ");
+		return move;
 	}
-
+	
 }
