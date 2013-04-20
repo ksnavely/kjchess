@@ -32,8 +32,13 @@ public class KJChessPiece {
 	}	
 	
 	public int move() {
-	    this.position = this.position << this.moves[0];	
-	    return this.position;
+	    //this.position = this.position << this.moves[0];	
+	    this.position = (int) (this.position * Math.pow(2, ( this.moves[0] )));	
+		return this.position;
+	}
+
+	public String getText() {
+		return this.text;
 	}
 	
 }
