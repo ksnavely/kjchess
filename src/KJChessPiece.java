@@ -1,29 +1,15 @@
 /**
- * 
- */
-import java.math.BigInteger;
-/**
  * @author ksnavely
  *
  */
-public class KJChessPiece {
-    char text, color;
-    BigInteger bitBoard;
-    
-    // The only allowed move is up one
-    // FIXME capture is an allowed move in special circumstances
-    int[] moves;
+import java.math.BigInteger;
 
-	/**
-	 * @param args
-	 */
-	public KJChessPiece(char pieceChar, char color, String bitString) {
-		this.text = pieceChar;
-		this.color = color;
-		this.bitBoard = new BigInteger( bitString, 2 );
-		this.moves = new int[1];
-	    this.moves[0] = 8;
-		// Do nothing
+public abstract class KJChessPiece {
+    char pieceChar, colorChar;
+    BigInteger bitBoard;
+
+	public KJChessPiece(char colorChar) {
+		this.colorChar = colorChar;
 	}
 
 	public BigInteger getBitBoard() {
@@ -36,8 +22,62 @@ public class KJChessPiece {
 		return this.bitBoard;
 	}
 
-	public char getText() {
-		return this.text;
+	public char getPieceChar() {
+		return this.pieceChar;
 	}
-	
+
+    public BigInteger flipBitBoard() {
+        BigInteger b = new BigInteger("0");
+        b = b.or( this.bitBoard.shiftLeft(56) ); 
+        b = b.or( this.bitBoard.shiftLeft(40).and( new BigInteger( "00000000" +
+                                                                   "11111111" +
+                                                                   "00000000" +
+                                                                   "00000000" +
+                                                                   "00000000" +
+                                                                   "00000000" +
+                                                                   "00000000" +
+                                                                   "00000000", 2 ) ) );
+        b = b.or( this.bitBoard.shiftLeft(24).and( new BigInteger( "00000000" +
+                                                                   "00000000" +
+                                                                   "11111111" +
+                                                                   "00000000" +
+                                                                   "00000000" +
+                                                                   "00000000" +
+                                                                   "00000000" +
+                                                                   "00000000", 2 ) ) );
+        b = b.or( this.bitBoard.shiftLeft(8).and( new BigInteger(  "00000000" +
+                                                                   "00000000" +
+                                                                   "00000000" +
+                                                                   "11111111" +
+                                                                   "00000000" +
+                                                                   "00000000" +
+                                                                   "00000000" +
+                                                                   "00000000", 2 ) ) );
+        b = b.or( this.bitBoard.shiftRight(56) ); 
+        b = b.or( this.bitBoard.shiftRight(40).and( new BigInteger( "00000000" +
+                                                                    "00000000" +
+                                                                    "00000000" +
+                                                                    "00000000" +
+                                                                    "00000000" +
+                                                                    "00000000" +
+                                                                    "11111111" +
+                                                                    "00000000", 2 ) ) );
+        b = b.or( this.bitBoard.shiftRight(24).and( new BigInteger( "00000000" +
+                                                                    "00000000" +
+                                                                    "00000000" +
+                                                                    "00000000" +
+                                                                    "00000000" +
+                                                                    "11111111" +
+                                                                    "00000000" +
+                                                                    "00000000", 2 ) ) );
+        b = b.or( this.bitBoard.shiftRight(8).and( new BigInteger(  "00000000" +
+                                                                    "00000000" +
+                                                                    "00000000" +
+                                                                    "00000000" +
+                                                                    "11111111" +
+                                                                    "00000000" +
+                                                                    "00000000" +
+                                                                    "00000000", 2 ) ) );
+        return b;
+    }
 }

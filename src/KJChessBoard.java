@@ -29,104 +29,7 @@ public class KJChessBoard {
     
     // The KJChessPiece objects which hold the bitfields for the pieces
     public KJChessPiece[] pieces = {
-        // White
-        new KJChessPiece('R', 'W', "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "10000001"),
-        new KJChessPiece('B', 'W', "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "01000010"),
-        new KJChessPiece('N', 'W', "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00100100"),
-        new KJChessPiece('Q', 'W', "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00010000"),
-        new KJChessPiece('K', 'W', "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00001000"),
-        new KJChessPiece('P', 'W', "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "11111111" +
-                                   "00000000"),
-        // Black
-        new KJChessPiece('R', 'B', "10000001" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000"),
-        new KJChessPiece('B', 'B', "01000010" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000"),
-        new KJChessPiece('N', 'B', "00100100" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000"),
-        new KJChessPiece('Q', 'B', "00001000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000"),
-        new KJChessPiece('K', 'B', "00010000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000"),
-        new KJChessPiece('P', 'B', "00000000" +
-                                   "11111111" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000" +
-                                   "00000000")
+        new KJChessPawn('W')
     };
     
     // This HashMap transforms chess column coordinates into integer values for bit operations
@@ -160,7 +63,7 @@ public class KJChessBoard {
             for (i=0; i<64; i++) {
                 bit = piece.getBitBoard().and( BigInteger.valueOf(1).shiftLeft(i) );
                 if (!bit.equals(BigInteger.valueOf(0)))
-                    boardCharArray[i] = piece.getText();
+                    boardCharArray[i] = piece.getPieceChar();
             }
         }
         
@@ -239,7 +142,7 @@ public class KJChessBoard {
         
         for (KJChessPiece piece:this.pieces) {
             bit = piece.getBitBoard().and( BigInteger.valueOf(1).shiftLeft(shift - 1) );
-            if (!bit.equals(BigInteger.valueOf(0)) && pieceChar == piece.getText())
+            if (!bit.equals(BigInteger.valueOf(0)) && pieceChar == piece.getPieceChar())
                 return piece;
         }
         
