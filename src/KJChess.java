@@ -32,7 +32,7 @@ public class KJChess {
     public static void appStep() {
     	String move = promptMove();
     	chessBoard.movePiece( move );
-    	System.out.print( chessBoard.makeBoardString() + "\n" );
+    	System.out.print( "\n" + chessBoard.makeBoardString() + "\n" );
     }
     
     public static String promptMove() {
