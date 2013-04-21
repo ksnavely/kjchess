@@ -185,11 +185,11 @@ public class KJChessBoard {
 		
 		int col = rowMap.get(coords.charAt(0));
 		int row = new Integer( Character.toString( coords.charAt(1) ) );
-		int shift = row*col;
+		int shift = 8*(row - 1) + col;
 		BigInteger bit;
 		
 		for (KJChessPiece piece:this.pieces) {
-			bit = piece.getBitBoard().and( BigInteger.valueOf(1).shiftLeft(shift) );
+			bit = piece.getBitBoard().and( BigInteger.valueOf(1).shiftLeft(shift - 1) );
 			if (!bit.equals(BigInteger.valueOf(0)) && pieceChar == piece.getText())
 				return piece;
 		}
