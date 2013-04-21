@@ -23,11 +23,6 @@ public class KJChess {
         System.out.print("-- KJChess --\n");
     	System.out.print( chessBoard.makeBoardString() + "\n" );
 
-        KJChessPiece p = chessBoard.pieces[0];
-        p.bitBoard = p.flipBitBoard();
-
-    	System.out.print( chessBoard.makeBoardString() + "\n" );
-
         while (true) {
         	appStep();
         }

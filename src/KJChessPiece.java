@@ -26,6 +26,8 @@ public abstract class KJChessPiece {
 		return this.pieceChar;
 	}
 
+    abstract BigInteger getAllowedMovesBitBoard();
+
     public BigInteger flipBitBoard() {
         BigInteger b = new BigInteger("0");
         b = b.or( this.bitBoard.shiftLeft(56) ); 

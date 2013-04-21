@@ -29,7 +29,7 @@ public class KJChessBoard {
     
     // The KJChessPiece objects which hold the bitfields for the pieces
     public KJChessPiece[] pieces = {
-        new KJChessPawn('W')
+        new KJChessPawn('W'),
     };
     
     // This HashMap transforms chess column coordinates into integer values for bit operations
@@ -105,12 +105,12 @@ public class KJChessBoard {
      * @param coords
      */
     public void movePiece(String coords) {
-        KJChessPiece piece = getPieceAt(coords);
+        KJChessPiece piece = getPieceWithAllowedMove(coords);
 
         if ( piece == null ) 
             System.out.print( "That piece not found at coords!\n" );
         else 
-            System.out.print("Found the piece.\n");
+            System.out.print("Found the piece: " + piece.getPieceChar() + "\n");
     }
     
     /**
@@ -122,8 +122,10 @@ public class KJChessBoard {
      * @return
      */
     public KJChessPiece getPieceAt( String coords ) {
+        // By default, the piece is a pawn e.g. opening a4
         char pieceChar = 'P';
         int col, row, shift;
+        // If it's not, e.g. Nb3, get the char and chop the string
         if (coords.length() == 3) {
             pieceChar = coords.charAt(0);
             coords = coords.substring(1);
@@ -136,12 +138,44 @@ public class KJChessBoard {
             System.out.print("Bad column letter? (a-h)\n");
             return null;
         }
+
         row = new Integer( Character.toString( coords.charAt(1) ) );
         shift = 8*(row - 1) + col;
         BigInteger bit;
         
         for (KJChessPiece piece:this.pieces) {
             bit = piece.getBitBoard().and( BigInteger.valueOf(1).shiftLeft(shift - 1) );
+            if (!bit.equals(BigInteger.valueOf(0)) && pieceChar == piece.getPieceChar())
+                return piece;
+        }
+        
+        return null;
+    }
+
+    public KJChessPiece getPieceWithAllowedMove( String coords ) {
+        // By default, the piece is a pawn e.g. opening a4
+        char pieceChar = 'P';
+        int col, row, shift;
+        // If it's not, e.g. Nb3, get the char and chop the string
+        if (coords.length() == 3) {
+            pieceChar = coords.charAt(0);
+            coords = coords.substring(1);
+        }
+        
+        try {
+            col = rowMap.get(coords.charAt(0));
+        }
+        catch (NullPointerException e) {
+            System.out.print("Bad column letter? (a-h)\n");
+            return null;
+        }
+
+        row = new Integer( Character.toString( coords.charAt(1) ) );
+        shift = 8*(row - 1) + col - 1;
+        BigInteger bit;
+        
+        for (KJChessPiece piece:this.pieces) {
+            bit = piece.getAllowedMovesBitBoard().and( BigInteger.valueOf(1).shiftLeft(shift) );
             if (!bit.equals(BigInteger.valueOf(0)) && pieceChar == piece.getPieceChar())
                 return piece;
         }

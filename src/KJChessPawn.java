@@ -20,5 +20,11 @@ public class KJChessPawn extends KJChessPiece {
                                         "00000000" +
                                         "11111111" +
                                         "00000000", 2 );
+        if (this.colorChar == 'B')
+            this.bitBoard = this.flipBitBoard();
 	}
+
+    public BigInteger getAllowedMovesBitBoard() {
+        return this.bitBoard.shiftLeft(8);
+    }
 }
