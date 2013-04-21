@@ -10,61 +10,38 @@
  * @author ksnavely
  *
  */
+import java.util.Scanner;
+
 public class KJChess {
-	public static KJChessPiece pawn = new KJChessPiece("pawn");
+	public static Scanner in = new Scanner(System.in);
+	public static KJChessPiece[] pieces = {
+		// White
+		// Back row
+		new KJChessPiece('R', 'W', "00000000" +
+								   "00000000" +
+				                   "00000000" +
+				                   "00000000" +
+								   "00000000" +
+								   "00000000" +
+								   "00000000" +
+								   "10000001"),
+	};
+	public static KJChessBoard chessBoard = new KJChessBoard();
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		System.out.print("-- KJChess --\n");
-		
-		System.out.print( pawn.getPosition() + "\n");
-		System.out.print( chessBoardView( pawn ) );
-		
-		pawn.move();
-		pawn.move();
-
-
-		System.out.print( pawn.getPosition() + "\n");
-		System.out.print( chessBoardView( pawn ) );
+		System.out.print( chessBoard.makeBoardString(pieces) + "\n" );
+		System.out.print( promptMove() + "\n");
 		
 	}
 	
-	public static String chessBoardView( KJChessPiece piece ) {
-		// Returns chess board view of a piece
-		//String[] characters = { "#", piece.getText(), "-" };
-		char[] charArray = { '#', '-', '#', '-', '#', '-', '#', '-', 
-		                       '-', '#', '-', '#', '-', '#', '-', '#',
-		                       '#', '-', '#', '-', '#', '-', '#', '-',
-		                       '-', '#', '-', '#', '-', '#', '-', '#',
-		                       '#', '-', '#', '-', '#', '-', '#', '-', 
-		                       '-', '#', '-', '#', '-', '#', '-', '#',
-		                       '#', '-', '#', '-', '#', '-', '#', '-',
-		                       '-', '#', '-', '#', '-', '#', '-', '#' };
-		String boardString = "";
-		String boardRowString = "";
-		int bitrow, row, col, bit, c;
-
-		for (row = 0; row <= 7; row++) { 
-			bitrow = (int) (piece.getPosition() / Math.pow(2,  8*row));
-			boardRowString = "|";
-			for (col = 0; col <=7; col++) {
-				bit = (bitrow >> col) & 1;
-				c = row*8 + col;
-
-				if (bit == 1) {
-					charArray[c] = piece.getText();
-				}
-			    boardRowString += charArray[c] + "|";
-
-
-			}
-			boardRowString += "\n";
-			boardString = boardRowString + boardString;
-		}
-		
-		return boardString;
-		
+	public static String[] promptMove() {
+		System.out.print("Enter Move: ");
+		String[] move = in.nextLine().trim().split(" ");
+		return move;
 	}
-
+	
 }
