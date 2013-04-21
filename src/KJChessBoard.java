@@ -2,6 +2,8 @@
  * 
  */
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 /**
  * @author ksnavely
  *
@@ -15,6 +17,8 @@ public class KJChessBoard {
 					              '-', '#', '-', '#', '-', '#', '-', '#',
 					              '#', '-', '#', '-', '#', '-', '#', '-',
 					              '-', '#', '-', '#', '-', '#', '-', '#' };
+    
+
     public KJChessPiece[] pieces = {
         // White
         new KJChessPiece('R', 'W', "00000000" +
@@ -115,7 +119,19 @@ public class KJChessBoard {
                                    "00000000" +
                                    "00000000")
     };
-	
+    
+    private static final Map<Character, Integer> rowMap = new HashMap<Character, Integer>();
+    static {
+    	rowMap.put('a',1);
+    	rowMap.put('b',2);
+    	rowMap.put('c',3);
+    	rowMap.put('d',4);
+    	rowMap.put('e',5);
+    	rowMap.put('f',6);
+    	rowMap.put('g',7);
+    	rowMap.put('h',8);
+    }
+
 	public char[] makeBoardCharArray() {
 		char[] boardCharArray = new char[this.bgCharArray.length];
 		System.arraycopy(this.bgCharArray, 0, boardCharArray, 0, this.bgCharArray.length);
@@ -152,5 +168,32 @@ public class KJChessBoard {
 		}
 		
 		return boardString;
+	}
+
+	public void movePiece(String coords) {
+		System.out.print(coords + "\n");
+		KJChessPiece piece = getPieceAt(coords);
+		System.out.print(piece.getText() + "\n");
+	}
+	
+	public KJChessPiece getPieceAt( String coords ) {
+		char pieceChar = 'P';
+		if (coords.length() == 3) {
+			pieceChar = coords.charAt(0);
+			coords = coords.substring(1);
+		}
+		
+		int col = rowMap.get(coords.charAt(0));
+		int row = new Integer( Character.toString( coords.charAt(1) ) );
+		int shift = row*col;
+		BigInteger bit;
+		
+		for (KJChessPiece piece:this.pieces) {
+			bit = piece.getBitBoard().and( BigInteger.valueOf(1).shiftLeft(shift) );
+			if (!bit.equals(BigInteger.valueOf(0)) && pieceChar == piece.getText())
+				return piece;
+		}
+		
+		return null;
 	}
 }
