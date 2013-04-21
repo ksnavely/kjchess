@@ -1,36 +1,34 @@
 /**
  * 
  */
-
+import java.math.BigInteger;
 /**
  * @author ksnavely
  *
  */
 public class KJChessBoard {
 	public char[] bgCharArray = { '#', '-', '#', '-', '#', '-', '#', '-', 
-            '-', '#', '-', '#', '-', '#', '-', '#',
-            '#', '-', '#', '-', '#', '-', '#', '-',
-            '-', '#', '-', '#', '-', '#', '-', '#',
-            '#', '-', '#', '-', '#', '-', '#', '-', 
-            '-', '#', '-', '#', '-', '#', '-', '#',
-            '#', '-', '#', '-', '#', '-', '#', '-',
-            '-', '#', '-', '#', '-', '#', '-', '#' };
+					              '-', '#', '-', '#', '-', '#', '-', '#',
+					              '#', '-', '#', '-', '#', '-', '#', '-',
+					              '-', '#', '-', '#', '-', '#', '-', '#',
+					              '#', '-', '#', '-', '#', '-', '#', '-', 
+					              '-', '#', '-', '#', '-', '#', '-', '#',
+					              '#', '-', '#', '-', '#', '-', '#', '-',
+					              '-', '#', '-', '#', '-', '#', '-', '#' };
 	
 	public char[] makeBoardCharArray( KJChessPiece[] pieces ) {
 		char[] boardCharArray = new char[this.bgCharArray.length];
 		System.arraycopy(this.bgCharArray, 0, boardCharArray, 0, this.bgCharArray.length);
 		
-		int bitrow, row, col, bit;
+		int i;
+		BigInteger bit;
 
 		// Set charArray values
 		for (KJChessPiece piece:pieces) {
-			for (row = 0; row <= 7; row++) { 
-				bitrow = (int) (piece.getPosition() / Math.pow(2,  8*row));
-				for (col = 0; col <=7; col++) {
-					bit = (bitrow >> col) & 1;
-					if (bit == 1)
-						boardCharArray[row*8 + col] = piece.getText();
-				}
+			for (i=0; i<64; i++) {
+				bit = piece.getBitBoard().and( BigInteger.valueOf(1).shiftLeft(i) );
+				if (!bit.equals(BigInteger.valueOf(0)))
+					boardCharArray[i] = piece.getText();
 			}
 		}
 		
@@ -46,7 +44,7 @@ public class KJChessBoard {
 		// Build the string
 		for (row = 0; row <= 7; row++) { 
 			boardRowString = "|";
-			for (col = 0; col <=7; col++) {
+			for (col = 7; col >=0; col--) {
 			    boardRowString += boardCharArray[row*8 + col] + "|";
 			}
 			boardRowString += "\n";
