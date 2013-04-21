@@ -15,8 +15,108 @@ public class KJChessBoard {
 					              '-', '#', '-', '#', '-', '#', '-', '#',
 					              '#', '-', '#', '-', '#', '-', '#', '-',
 					              '-', '#', '-', '#', '-', '#', '-', '#' };
+    public KJChessPiece[] pieces = {
+        // White
+        new KJChessPiece('R', 'W', "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "10000001"),
+        new KJChessPiece('B', 'W', "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "01000010"),
+        new KJChessPiece('N', 'W', "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00100100"),
+        new KJChessPiece('Q', 'W', "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00010000"),
+        new KJChessPiece('K', 'W', "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00001000"),
+        new KJChessPiece('P', 'W', "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "11111111" +
+                                   "00000000"),
+        // Black
+        new KJChessPiece('R', 'B', "10000001" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000"),
+        new KJChessPiece('B', 'B', "01000010" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000"),
+        new KJChessPiece('N', 'B', "00100100" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000"),
+        new KJChessPiece('Q', 'B', "00001000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000"),
+        new KJChessPiece('K', 'B', "00010000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000"),
+        new KJChessPiece('P', 'B', "00000000" +
+                                   "11111111" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000" +
+                                   "00000000")
+    };
 	
-	public char[] makeBoardCharArray( KJChessPiece[] pieces ) {
+	public char[] makeBoardCharArray() {
 		char[] boardCharArray = new char[this.bgCharArray.length];
 		System.arraycopy(this.bgCharArray, 0, boardCharArray, 0, this.bgCharArray.length);
 		
@@ -24,7 +124,7 @@ public class KJChessBoard {
 		BigInteger bit;
 
 		// Set charArray values
-		for (KJChessPiece piece:pieces) {
+		for (KJChessPiece piece:this.pieces) {
 			for (i=0; i<64; i++) {
 				bit = piece.getBitBoard().and( BigInteger.valueOf(1).shiftLeft(i) );
 				if (!bit.equals(BigInteger.valueOf(0)))
@@ -35,11 +135,11 @@ public class KJChessBoard {
 		return boardCharArray;
 	}
 	
-	public String makeBoardString( KJChessPiece[] pieces ) {
+	public String makeBoardString() {
 		int row, col;
 		String boardRowString;
 		String boardString = "";
-		char[] boardCharArray = makeBoardCharArray( pieces );
+		char[] boardCharArray = makeBoardCharArray();
 		
 		// Build the string
 		for (row = 0; row <= 7; row++) { 
