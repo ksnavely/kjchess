@@ -16,11 +16,7 @@ public abstract class KJChessPiece {
 		return this.bitBoard;
 	}	
 	
-	public BigInteger move() {
-	    //this.position = this.position << this.moves[0];	
-	    //this.position = (long) (this.position * Math.pow(2, ( this.moves[0] )));	
-		return this.bitBoard;
-	}
+	abstract BigInteger move( int shift );
 
 	public char getPieceChar() {
 		return this.pieceChar;
