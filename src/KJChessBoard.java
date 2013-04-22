@@ -108,11 +108,9 @@ public class KJChessBoard {
         KJChessPiece piece = getPieceWithAllowedMove(coords);
 
         if ( piece == null ) 
-            System.out.print( "That piece not found at coords!\n" );
-        else 
-            System.out.print("Found the piece: " + piece.getPieceChar() + "\n");
-
-        piece.move( this.getCoordShift( coords ) );
+            System.out.print( "Illegal move!\n" );
+        else
+            piece.move( this.getCoordShift( coords ) );
     }
     
     /**
