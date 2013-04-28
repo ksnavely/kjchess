@@ -105,12 +105,20 @@ public class KJChessBoard {
      * @param coords
      */
     public void movePiece(String coords) {
-        KJChessPiece piece = getPieceWithAllowedMove(coords);
+        KJChessPiece piece = this.getPieceWithAllowedMove(coords);
+        int shift;
 
         if ( piece == null ) 
             System.out.print( "Illegal move!\n" );
-        else
-            piece.move( this.getCoordShift( coords ) );
+        else {
+            try {
+                shift = this.getCoordShift( coords );
+                piece.move( shift );
+            }
+            catch (Exception e) {
+                System.out.print(e.getMessage());
+            }
+        }
     }
     
     /**
@@ -134,29 +142,45 @@ public class KJChessBoard {
         try {
             shift = this.getCoordShift( coords );
         }
-        catch (NullPointerException e) {
-            System.out.print("Bad column letter? (a-h)\n");
+        catch (Exception e) {
+            System.out.print(e.getMessage());
             return null;
         }
 
         BigInteger bit;
         
+        // Go through the pieces and see if one with matching pieceChar is at the shift value
         for (KJChessPiece piece:this.pieces) {
             bit = piece.getBitBoard().and( BigInteger.valueOf(1).shiftLeft(shift - 1) );
             if (!bit.equals(BigInteger.valueOf(0)) && pieceChar == piece.getPieceChar())
                 return piece;
         }
-        
+        // No match found...
         return null;
     }
 
-    public int getCoordShift( String coords ) {
+    public int getCoordShift( String coords ) throws Exception {
+        if (coords.length() != 3 && coords.length() != 2) {
+            throw new Exception("Bad coordinates string? E.g. a3, Qc7...\n");
+        }
+
         if (coords.length() == 3)
             coords = coords.substring(1);
 
         int col, row, shift;
-        col = rowMap.get(coords.charAt(0));
+
+        try {
+            col = rowMap.get(coords.charAt(0));
+        }
+        catch (NullPointerException e) {
+            throw new Exception("Bad column letter? (a-h valid)\n");
+        }
         row = new Integer( Character.toString( coords.charAt(1) ) );
+
+        if (row > 8 || col > 8) {
+            throw new Exception("Coordinates off the chessboard?\n");
+        }
+
         shift = 8*(row - 1) + col - 1;
         return shift;
     }
@@ -174,13 +198,11 @@ public class KJChessBoard {
         try {
             shift = this.getCoordShift( coords );
         }
-        catch (NullPointerException e) {
-            System.out.print("Bad column letter? (a-h)\n");
+        catch (Exception e) {
+            System.out.print(e.getMessage());
             return null;
         }
-
         BigInteger bit;
-        
         for (KJChessPiece piece:this.pieces) {
             bit = piece.getAllowedMovesBitBoard().and( BigInteger.valueOf(1).shiftLeft(shift) );
             if (!bit.equals(BigInteger.valueOf(0)) && pieceChar == piece.getPieceChar())
